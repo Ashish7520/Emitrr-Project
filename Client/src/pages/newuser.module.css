@@ -1,0 +1,48 @@
+.userContainer {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #ede7d9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #4b4237;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #4b4237;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #d5a021;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4b4237;
+}
+
+.toggleText {
+  cursor: pointer;
+  color: #4b4237;
+}
+
+.toggleText:hover {
+  color: #d5a021;
+}

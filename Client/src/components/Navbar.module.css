@@ -1,0 +1,41 @@
+
+.sidebar {
+  background-color: #4b4237;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  margin: 0 15px;
+  font-size: 18px;
+}
+
+.sidebar a:hover {
+  color: #d5a021;
+}
+
+.logoutLink {
+  text-decoration: none;
+  color: white; 
+  margin: 0 15px; 
+  font-size: 18px;
+}
+
+.logoutLink:hover {
+  color: #d5a021;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar a {
+    margin: 10px 0;
+  }
+}
