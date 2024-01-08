@@ -1,16 +1,23 @@
+//this component/page is use for quiz related logic
+
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styles from "./Quiz.module.css";
+import { quizAction } from "../store/quiz";
 
 const Quiz = () => {
   const maxQuestionCount = 6;
-  const [next, setNext] = useState(1);
+  // const [next, setNext] = useState(1);
   const [question, setQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
   const token = localStorage.getItem("token");
   const history = useHistory();
+
+  const dispatch = useDispatch();
+  const next = useSelector((state) => state.quiz.question);
+  const progress = useSelector((state) => state.quiz.progress);
 
   const language = useSelector((state) => state.quiz.language);
 
@@ -75,10 +82,11 @@ const Quiz = () => {
         console.log(data);
 
         alert(data ? "Correct!" : "Incorrect!");
-
-        setProgress((prevProgress) => prevProgress + 1);
+        dispatch(quizAction.progressCounter());
+        // setProgress((prevProgress) => prevProgress + 1);
         if (next < maxQuestionCount) {
-          setNext((prevNext) => prevNext + 1);
+          dispatch(quizAction.questionCounter());
+          // setNext((prevNext) => prevNext + 1);
         } else {
           alert("Reset the quiz");
           const performReset = async () => {

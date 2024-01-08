@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 
 const sequelize = require("./util/database");
+const User = require("./model/user");
+const Questions = require("./model/questions");
+const UserQuestions = require("./model/userQuestions");
 
 const cors = require("cors");
 app.use(cors());
@@ -17,6 +20,9 @@ app.use("/user", userRoutes);
 
 const questionRoute = require("./routes/quiz");
 app.use("/quiz", questionRoute);
+
+User.belongsToMany(Questions, { through: UserQuestions });
+Questions.belongsToMany(User, { through: UserQuestions });
 
 sequelize
   .sync()

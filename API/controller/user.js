@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
 const { where } = require("sequelize");
+const UserQuestions = require("../model/userQuestions");
 
 //to generate the JWT token
 function generateAccessToken(id, username) {
@@ -93,6 +94,12 @@ exports.resetProfile = async (req, res) => {
         },
       }
     );
+
+    await UserQuestions.destroy({
+      where: {
+        userId: userId,
+      },
+    });
 
     console.log(reset);
 

@@ -2,6 +2,7 @@ const sequelize = require("sequelize");
 const Question = require("../model/questions");
 const data = require("../util/data");
 const User = require("../model/user");
+const UserQuestions = require("../model/userQuestions");
 
 //to post all the question of quiz
 exports.postQuestions = async (req, res) => {
@@ -20,13 +21,23 @@ exports.postQuestions = async (req, res) => {
 exports.getQuestions = async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log("userId -->", userId);
     const language = req.params.language;
 
-    //to find difficulty based on user's skill level
+    // Retrieve attempted question IDs for the user
+    const attemptedQuestionIds = await UserQuestions.findAll({
+      attributes: ["QuestionId"],
+      where: { userId: userId, isAttempted: true },
+    });
+
+    // Extract the IDs from the result
+    const attemptedIds = attemptedQuestionIds.map((item) => item.QuestionId);
+
     const userPerformance = await getUserPerformance(userId);
     const userSkillLevel = calculateUserSkillLevel(userPerformance);
     const difficulty = calculateDifficulty(userSkillLevel);
 
+    // Find a new question whose ID is not in the list of attempted IDs
     const question = await Question.findOne({
       attributes: [
         "question_text",
@@ -37,16 +48,31 @@ exports.getQuestions = async (req, res) => {
         "difficulty",
         "id",
       ],
-      where: { difficulty: difficulty, language: language },
+      where: {
+        id: { [sequelize.Op.notIn]: attemptedIds },
+        difficulty: difficulty,
+        language: language,
+      },
       order: [sequelize.literal("RAND()")],
     });
 
-    res.status(200).json(question);
+    if (question) {
+      // Mark the retrieved question as attempted in the UserQuestions table
+      await UserQuestions.create({
+        userId: userId,
+        QuestionId: question.id,
+        isAttempted: true,
+      });
+
+      res.status(200).json(question);
+    } else {
+      res.status(404).json({ message: "No more questions available." });
+    }
   } catch (error) {
-    console.error("Error fetching question:", error);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error: Could not fetch questions" });
+    console.error("Error fetching or updating question:", error);
+    res.status(500).json({
+      error: "Internal Server Error: Could not fetch or update question",
+    });
   }
 };
 

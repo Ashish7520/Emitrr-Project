@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   question: 0,
   language: "",
+  progress: 0,
 };
 
 const quizSlice = createSlice({
@@ -22,6 +23,10 @@ const quizSlice = createSlice({
     resetProfile: (state) => {
       state.language = "";
       state.question = 0;
+      state.progress = 0;
+    },
+    progressCounter: (state) => {
+      state.progress++;
     },
   },
 });
