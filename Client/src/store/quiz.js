@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  question: 0,
+  question: 1,
   language: "",
   progress: 0,
 };
@@ -16,13 +16,14 @@ const quizSlice = createSlice({
       state.language = language;
     },
     questionCounter: (state) => {
-      if (state.question < 6) {
-        state.question++;
-      }
+      state.question++;
+      // if (state.question < 6) {
+
+      // }
     },
     resetProfile: (state) => {
       state.language = "";
-      state.question = 0;
+      state.question = 1;
       state.progress = 0;
     },
     progressCounter: (state) => {
