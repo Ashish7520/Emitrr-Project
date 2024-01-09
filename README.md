@@ -1,6 +1,10 @@
 # Emitrr-Project
 
 <h2>Fullstack Quiz App</h2>
+To run application locally, you need to download the zip folder of project and you need to update some code to run application.<br/>
+You need to update the MySQL Credentials in API/util/database with your credential <br/>
+You need to run npm install in both emitrr-project/API directory and emitrr-project/Client directory <br/>
+After doing these set up we need to run npm start in both above mentioned directory.
 
 <h3>Database Logic</h3>
 There are total 3 table 1)User, 2)Questions, 3)userQuestions
